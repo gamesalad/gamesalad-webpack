@@ -1,26 +1,44 @@
-// Test import of a JavaScript module
-import { example } from '@/js/example'
-
-// Test import of an asset
-import webpackLogo from '@/images/webpack-logo.svg'
-
-// Test import of styles
 import '@/styles/index.scss'
+import { defineDelegates } from '@/js/delegates';
 
-// Appending to the DOM
-const logo = document.createElement('img')
-logo.src = webpackLogo
+function muteOnPageHidden () {
+  function onVisibilityChanged() {
+    if (!gse) {
+      return
+    }
 
-const heading = document.createElement('h1')
-heading.textContent = example()
+    if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
+      gse.setGameVolume(engine, 0);
+    else
+      gse.setGameVolume(engine, 1);
+  };
+  document.addEventListener("visibilitychange", onVisibilityChanged, false);
+  document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
+  document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
+  document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
+}
 
-// Test a background image url in CSS
-const imageBackground = document.createElement('div')
-imageBackground.classList.add('image')
+window.onEngineLoad = function(path) {
+  gse.ready((engine) => {
+    const delegates = defineDelegates(engine);
+    engine.appendDelegates(delegates);
+    if (delegates.onWindowResize) {
+      window.addEventListener('resize', delegates.onWindowResize, false);
+    }
 
-// Test a public folder asset
-const imagePublic = document.createElement('img')
-imagePublic.src = '/assets/example.png'
+    // Pause and resume on page visibility change.
+    muteOnPageHidden();
 
-const app = document.querySelector('#root')
-app.append(logo, heading, imageBackground, imagePublic)
+    // Set the div target for the game.
+    engine.setRenderFrame('gse-player');
+
+    // Resize based on window size.
+    engine.setOptions({
+      'viewport-reference': 'window',
+      'viewport-fit': 'letterbox'
+    });
+
+    engine.loadOptionsFromURL(); // Load and playback options from the page URL.
+    engine.play(path); // Load the game from the path specified.
+  })
+}

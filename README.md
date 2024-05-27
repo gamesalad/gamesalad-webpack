@@ -2,7 +2,23 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Sensible webpack 5 boilerplate using Babel, PostCSS and Sass.
+Sensible webpack 5 boilerplate using Babel, PostCSS and Sass (update for GameSalad)
+
+## Game Setup
+
+Download your GameSalad HTML5 package and place files as follows:
+
+| GameSalad HTML5     | Tauri Project            | Note                          |
+| ------------------- | ------------------------ | ----------------------------- |
+| images              | src/assets/images        | Scene loading indicator image |
+| js/gse/gs-export.js | public/js/gse/gs-export.js  | Game Engine                |
+| game                | public/game              | Game Project.                 |
+| css                 | src/assets/css           | CSS. Optional since it doesn't change often and it's already included |
+
+Place your custom logic in js/delegates.js
+To keep your final distribution small, comment out any delegates you don't need.
+
+Delegate documentation goes here: https://help.gamesalad.com/knowledge-base/does-the-html5-engine-have-any-apis-i-can-interact-with/
 
 ## Installation
 
@@ -91,6 +107,7 @@ cd dist && http-server
 ## Author
 
 - [Tania Rascia](https://www.taniarascia.com)
+- [Tan Tran](https://gamesalad.com)
 
 ## License
 
