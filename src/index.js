@@ -1,7 +1,7 @@
 import '@/styles/index.scss'
 import { defineDelegates } from '@/js/delegates';
 
-function muteOnPageHidden () {
+function muteOnPageHidden (engine) {
   function onVisibilityChanged() {
     if (!gse) {
       return
@@ -27,7 +27,7 @@ window.onEngineLoad = function(path) {
     }
 
     // Pause and resume on page visibility change.
-    muteOnPageHidden();
+    muteOnPageHidden(engine);
 
     // Set the div target for the game.
     engine.setRenderFrame('gse-player');
