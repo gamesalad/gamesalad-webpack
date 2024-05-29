@@ -21,7 +21,7 @@ function muteOnPageHidden () {
 window.onEngineLoad = function(path) {
   gse.ready((engine) => {
     const delegates = defineDelegates(engine);
-    engine.appendDelegates(delegates);
+    engine.appendDelegate(delegates);
     if (delegates.onWindowResize) {
       window.addEventListener('resize', delegates.onWindowResize, false);
     }
